@@ -1,9 +1,9 @@
 import socket
+from enum import Enum
 from dataclasses import dataclass
+from Util import Util
 
-
-
-class NetState:
+class NetState(Enum):
     PING = 0 #TODO: [] Implement this ping to check if the server is up
     PONG = 1 #TODO: [] Implement this pong to check if the client is up
     CONNECT = 2 #TODO: [] Implement this to Create an user and his hash and send Blockchain Ping
@@ -17,6 +17,13 @@ class NetState:
 class Network:
     size = 1024
     host = socket.gethostname()
-    port = 12345
+    port = Util.get_free_port()
     socket = socket.socket()
 
+    __init__(self):
+        data = Util.get_saved_state()
+        if data is not None:
+            self.host = data['host']
+            self.port = data['port']
+            self.size = data['size']
+            self.socket = socket.socket()

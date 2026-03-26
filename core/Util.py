@@ -28,3 +28,22 @@ class Util:
         pause = input("Press any key to close the app...")
         exit()
 
+    @staticmethod
+    def get_free_port():
+        import socket
+        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        s.bind(('', 0))
+        port = s.getsockname()[1]
+        s.close()
+        return port
+
+
+    @staticmethod
+    def get_saved_state():
+        import json
+        try:
+            with open('state.json', 'r') as f:
+                data = json.load(f)
+                return data
+        except FileNotFoundError:
+            return None
